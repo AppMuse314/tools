@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harbin Travel Itinerary Creator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .attraction-card {
+            transition: all 0.3s ease;
+        }
+        .attraction-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .selected {
+            border: 3px solid #3b82f6;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        }
+        .itinerary-item {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .season-badge {
+            background: linear-gradient(45deg, #06b6d4, #0891b2);
+        }
+        .price-badge {
+            background: linear-gradient(45deg, #10b981, #059669);
+        }
+        .photo-modal {
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .photo-gallery {
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">🏔️ Harbin Travel Planner</h1>
+            <p class="text-gray-600 text-lg">Create your perfect Harbin adventure itinerary</p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Attractions Selection -->
+            <div class="lg:col-span-2">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2">Choose Your Attractions</h2>
+                <p class="text-gray-600 text-sm mb-4">💡 Click cards to view photos, double-click to add to itinerary</p>
+                
+                <!-- Preset Categories -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Quick Start - Select by Travel Style:</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-3">
+                        <button onclick="selectCategory('snow')" class="category-btn bg-gradient-to-r from-blue-400 to-cyan-500 text-white p-4 rounded-lg text-center hover:from-blue-500 hover:to-cyan-600 transition-all duration-200 transform hover:scale-105">
+                            <div class="text-2xl mb-1">❄️</div>
+                            <div class="font-semibold text-sm">Snow Lovers</div>
+                            <div class="text-xs opacity-90">Winter magic & adventures</div>
+                        </button>
+                        <button onclick="selectCategory('culture')" class="category-btn bg-gradient-to-r from-purple-400 to-pink-500 text-white p-4 rounded-lg text-center hover:from-purple-500 hover:to-pink-600 transition-all duration-200 transform hover:scale-105">
+                            <div class="text-2xl mb-1">🧳</div>
+                            <div class="font-semibold text-sm">Culture Explorers</div>
+                            <div class="text-xs opacity-90">History & unique places</div>
+                        </button>
+                        <button onclick="selectCategory('foodie')" class="category-btn bg-gradient-to-r from-orange-400 to-red-500 text-white p-4 rounded-lg text-center hover:from-orange-500 hover:to-red-600 transition-all duration-200 transform hover:scale-105">
+                            <div class="text-2xl mb-1">🍜</div>
+                            <div class="font-semibold text-sm">Foodies & Relaxation</div>
+                            <div class="text-xs opacity-90">Dining & pampering</div>
+                        </button>
+                        <button onclick="selectCategory('family')" class="category-btn bg-gradient-to-r from-green-400 to-teal-500 text-white p-4 rounded-lg text-center hover:from-green-500 hover:to-teal-600 transition-all duration-200 transform hover:scale-105">
+                            <div class="text-2xl mb-1">🎡</div>
+                            <div class="font-semibold text-sm">Fun & Family</div>
+                            <div class="text-xs opacity-90">Entertainment & kids</div>
+                        </button>
+                        <button onclick="selectCategory('firsttime')" class="category-btn bg-gradient-to-r from-yellow-400 to-amber-500 text-white p-4 rounded-lg text-center hover:from-yellow-500 hover:to-amber-600 transition-all duration-200 transform hover:scale-105">
+                            <div class="text-2xl mb-1">⭐</div>
+                            <div class="font-semibold text-sm">First Time</div>
+                            <div class="text-xs opacity-90">Must-see highlights</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6" id="attractionsGrid">
+                    <!-- Attraction cards will be generated here -->
+                </div>
+            </div>
+
+            <!-- Itinerary Panel -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Your Itinerary</h2>
+                    <div id="itineraryList" class="space-y-3 mb-6">
+                        <p class="text-gray-500 text-center py-8">Select attractions to build your itinerary</p>
+                    </div>
+                    
+                    <div class="border-t pt-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-semibold text-gray-700">Total Estimated Cost:</span>
+                            <span class="text-xl font-bold text-green-600" id="totalCost">¥0</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-semibold text-gray-700">Total Duration:</span>
+                            <span class="text-lg font-semibold text-blue-600" id="totalDuration">0 hours</span>
+                        </div>
+                        <button onclick="showSummary()" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105">
+                            📋 Show Summary
+                        </button>
+                        <button onclick="clearItinerary()" class="w-full mt-2 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-300 transition-colors">
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Modal -->
+    <div id="summaryModal" class="photo-modal fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center p-4">
+        <div class="photo-gallery bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-gray-800">🏔️ Your Harbin Itinerary</h3>
+                    <button onclick="closeSummaryModal()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <textarea id="summaryText" class="w-full h-96 p-4 border rounded-lg resize-none font-mono text-sm" readonly></textarea>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="copySummary()" class="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2 px-4 rounded-lg font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-200">
+                        📋 Copy to Clipboard
+                    </button>
+                    <button onclick="downloadSummary()" class="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 px-4 rounded-lg font-medium hover:from-blue-600 hover:to-indigo-700 transition-all duration-200">
+                        💾 Download File
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div id="photoModal" class="photo-modal fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center p-4">
+        <div class="photo-gallery bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modalTitle" class="text-2xl font-bold text-gray-800"></h3>
+                    <button onclick="closePhotoModal()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
+                </div>
+                <div id="photoGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Photos will be inserted here -->
+                </div>
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <p id="modalDescription" class="text-gray-700 mb-2"></p>
+                    <p id="modalWhyGo" class="text-blue-600 font-medium"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const attractions = [
+            {
+                id: 1,
+                name: "伏尔加庄园 Volga Manor",
+                description: "Russian-style estate with ornate architecture, scenic views, and snowy fairytale vibes.",
+                whyGo: "Experience Russia in China — unique for photo shoots, wedding backdrops, and architecture lovers.",
+                bestTime: "December to February",
+                bestFor: "Couples, photographers, families",
+                price: "¥150–¥280",
+                avgPrice: 215,
+                duration: "4-8 hours",
+                avgDuration: 6,
+                emoji: "🏰",
+                photos: [
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&sat=-50"
+                ]
+            },
+            {
+                id: 2,
+                name: "哈尔滨博物馆 Harbin Museum",
+                description: "A local museum preserving Harbin's multicultural history and Russian influence.",
+                whyGo: "Dive into Harbin's unique East-meets-West heritage.",
+                bestTime: "Year-round",
+                bestFor: "History lovers, solo travelers, culture buffs",
+                price: "Free-¥20",
+                avgPrice: 10,
+                duration: "1-2 hours",
+                avgDuration: 1.5,
+                emoji: "🏛️",
+                photos: [
+                    "https://images.unsplash.com/photo-1566127992631-137a642a90f4?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=600&h=400&fit=crop"
+                ]
+            },
+            {
+                id: 3,
+                name: "波塞冬海底世界 Poseidon Underwater World",
+                description: "Large aquarium and theme park featuring marine life and interactive shows.",
+                whyGo: "Family-friendly entertainment with unique underwater experiences.",
+                bestTime: "Year-round",
+                bestFor: "Families with kids, casual tourists",
+                price: "¥160–¥240",
+                avgPrice: 200,
+                duration: "3-4 hours",
+                avgDuration: 3.5,
+                emoji: "🐠",
+                photos: [
+                    "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=600&h=400&fit=crop&hue=30"
+                ]
+            },
+            {
+                id: 4,
+                name: "哈药六厂 Hayao Factory No. 6",
+                description: "Famous pharmaceutical factory known for tours and health-themed shopping.",
+                whyGo: "A quirky stop for health-conscious travelers or those interested in Chinese pharma culture.",
+                bestTime: "Year-round",
+                bestFor: "Curious tourists, older travelers",
+                price: "Free-¥50",
+                avgPrice: 25,
+                duration: "1-2 hours",
+                avgDuration: 1.5,
+                emoji: "🏭",
+                photos: [
+                    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop"
+                ]
+            },
+            {
+                id: 5,
+                name: "滑雪 Skiing",
+                description: "Harbin has nearby ski resorts like Yabuli or Erlongshan.",
+                whyGo: "Enjoy snowy slopes and winter sports in China's coldest city.",
+                bestTime: "December to March",
+                bestFor: "Adventure seekers, sporty travelers",
+                price: "¥200–¥500/day",
+                avgPrice: 350,
+                duration: "6-8 hours",
+                avgDuration: 7,
+                emoji: "⛷️",
+                photos: [
+                    "https://images.unsplash.com/photo-1551524164-6cf2ac531400?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&brightness=10"
+                ]
+            },
+            {
+                id: 6,
+                name: "巧克力博物馆 Chocolate Museum",
+                description: "Museum with chocolate art, sculptures, and interactive exhibits.",
+                whyGo: "Whimsical, sweet experience with great photo ops.",
+                bestTime: "Winter",
+                bestFor: "Families, couples, sweet-tooth travelers",
+                price: "¥100",
+                avgPrice: 100,
+                duration: "1-2 hours",
+                avgDuration: 1.5,
+                emoji: "🍫",
+                photos: [
+                    "https://images.unsplash.com/photo-1511381939415-e44015466834?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=600&h=400&fit=crop"
+                ]
+            },
+            {
+                id: 7,
+                name: "红门御宴 Imperial Banquet",
+                description: "Upscale dining experiences inspired by imperial Manchu cuisine.",
+                whyGo: "Taste northeast Chinese royalty-style dining.",
+                bestTime: "Year-round",
+                bestFor: "Foodies, culture travelers",
+                price: "¥200–¥500+",
+                avgPrice: 350,
+                duration: "1.5-2 hours",
+                avgDuration: 1.75,
+                emoji: "🍽️",
+                photos: [
+                    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop"
+                ]
+            },
+            {
+                id: 8,
+                name: "洗浴 Bathhouse / Spa",
+                description: "Harbin's bathhouse culture is vibrant — expect saunas, massages, and full-service relaxation.",
+                whyGo: "Perfect way to escape the cold and refresh your body.",
+                bestTime: "Winter",
+                bestFor: "Tired travelers, solo or group relaxation",
+                price: "¥100–¥300",
+                avgPrice: 200,
+                duration: "2-4 hours",
+                avgDuration: 3,
+                emoji: "🛁",
+                photos: [
+                    "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1596178065887-1198b6148b2b?w=600&h=400&fit=crop"
+                ]
+            },
+            {
+                id: 9,
+                name: "冰雪大世界 Ice and Snow World",
+                description: "Massive seasonal ice sculpture park with castles, slides, and nighttime lights.",
+                whyGo: "It's the highlight of Harbin's winter festival.",
+                bestTime: "Late December to February",
+                bestFor: "Everyone — it's iconic",
+                price: "¥260–¥330",
+                avgPrice: 295,
+                duration: "3-4 hours",
+                avgDuration: 3.5,
+                emoji: "❄️",
+                photos: [
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&sat=50",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&hue=240",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&brightness=-20"
+                ]
+            },
+            {
+                id: 10,
+                name: "冰雪画廊 Ice and Snow Gallery",
+                description: "Scenic winter trail in Snow Town with stunning frozen scenery.",
+                whyGo: "Magical snow-covered landscape straight out of a postcard.",
+                bestTime: "January to February",
+                bestFor: "Nature lovers, photographers",
+                price: "¥100",
+                avgPrice: 100,
+                duration: "1-2 hours",
+                avgDuration: 1.5,
+                emoji: "🖼️",
+                photos: [
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&sat=-30",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&contrast=20",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&brightness=30"
+                ]
+            },
+            {
+                id: 11,
+                name: "雪乡 Snow Town",
+                description: "Fairy-tale village covered in deep snow, known for wooden homes and snowy rooftops.",
+                whyGo: "Signature snowy village scene of northeast China.",
+                bestTime: "Late December to early March",
+                bestFor: "Nature lovers, couples, adventurers",
+                price: "¥150-¥200",
+                avgPrice: 175,
+                duration: "4-6 hours",
+                avgDuration: 5,
+                emoji: "🏘️",
+                photos: [
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&sepia=20",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&warmth=30",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&vintage=20"
+                ]
+            },
+            {
+                id: 12,
+                name: "大秃顶子山 Datudingzi Mountain",
+                description: "Snow hiking trail with offbeat mountain paths and winter scenery.",
+                whyGo: "Adventure hiking with stunning snow-covered mountain views.",
+                bestTime: "December to March",
+                bestFor: "Adventure seekers, hikers",
+                price: "¥50-¥100",
+                avgPrice: 75,
+                duration: "4-6 hours",
+                avgDuration: 5,
+                emoji: "⛰️",
+                photos: [
+                    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&contrast=30",
+                    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&sat=-20"
+                ]
+            },
+            {
+                id: 13,
+                name: "松花江 Songhua River",
+                description: "Frozen river with ice bikes, sledding, and winter activities.",
+                whyGo: "Unique winter river activities and ice sports.",
+                bestTime: "December to February",
+                bestFor: "Families, adventure seekers",
+                price: "¥30-¥80",
+                avgPrice: 55,
+                duration: "2-3 hours",
+                avgDuration: 2.5,
+                emoji: "🏞️",
+                photos: [
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&hue=180",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&brightness=20",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&sat=30"
+                ]
+            },
+            {
+                id: 14,
+                name: "东北虎林园 Siberian Tiger Park",
+                description: "Wildlife park featuring Siberian tigers and animal conservation.",
+                whyGo: "Exciting animal encounters and conservation education.",
+                bestTime: "Year-round",
+                bestFor: "Families, animal lovers",
+                price: "¥90-¥120",
+                avgPrice: 105,
+                duration: "2-3 hours",
+                avgDuration: 2.5,
+                emoji: "🐅",
+                photos: [
+                    "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&hue=30&sat=50",
+                    "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=600&h=400&fit=crop&brightness=10"
+                ]
+            },
+            {
+                id: 15,
+                name: "圣·索菲亚教堂 Sophia Cathedral",
+                description: "Russian Orthodox church turned museum with stunning Byzantine architecture.",
+                whyGo: "Iconic Harbin landmark with history and beautiful architecture.",
+                bestTime: "Year-round",
+                bestFor: "Photographers, architecture lovers",
+                price: "¥20–¥50",
+                avgPrice: 35,
+                duration: "30 minutes – 1 hour",
+                avgDuration: 0.75,
+                emoji: "⛪",
+                photos: [
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&hue=45&sat=30",
+                    "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop&brightness=20",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&sepia=30"
+                ]
+            },
+            {
+                id: 16,
+                name: "中央大街 Central Street",
+                description: "European-style walking street with shops.",
+                whyGo: "Heart of Harbin with great vibes.",
+                bestTime: "Year-round",
+                bestFor: "All travelers",
+                price: "Free",
+                avgPrice: 0,
+                duration: "2–3 hours",
+                avgDuration: 2.5,
+                emoji: "🛍️",
+                photos: [
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&warmth=20",
+                    "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop&sat=40",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&vintage=40"
+                ]
+            }
+        ];
+
+        let selectedAttractions = [];
+
+        const categoryPresets = {
+            snow: [1, 11, 12, 9, 10, 13, 5], // Volga Manor, Snow Town, Datudingzi Mountain, Ice and Snow World, Ice and Snow Gallery, Songhua River, Skiing
+            culture: [1, 2, 6, 4, 14, 3, 15, 16], // Volga Manor, Harbin Museum, Chocolate Museum, Hayao Factory, Siberian Tiger Park, Poseidon Underwater World, Sophia Cathedral, Central Street
+            foodie: [7, 8, 6, 4, 1, 16], // Imperial Banquet, Bathhouse/Spa, Chocolate Museum, Hayao Factory, Volga Manor, Central Street
+            family: [3, 14, 9, 6, 13, 8, 5, 16], // Poseidon Underwater World, Siberian Tiger Park, Ice and Snow World, Chocolate Museum, Songhua River, Bathhouse/Spa, Skiing, Central Street
+            firsttime: [9, 15, 16, 1, 11, 14] // Ice and Snow World, Sophia Cathedral, Central Street, Volga Manor, Snow Town, Siberian Tiger Park
+        };
+
+        function selectCategory(category) {
+            const attractionIds = categoryPresets[category];
+            selectedAttractions = attractions.filter(a => attractionIds.includes(a.id));
+            updateUI();
+            
+            // Show a brief notification
+            const categoryNames = {
+                snow: 'Snow Lovers & Adventurers',
+                culture: 'Culture & Curiosity Explorers', 
+                foodie: 'Foodies & Relaxation Seekers',
+                family: 'Fun & Family Travelers'
+            };
+            
+            // Scroll to itinerary
+            document.querySelector('.lg\\:col-span-1').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderAttractions() {
+            const grid = document.getElementById('attractionsGrid');
+            grid.innerHTML = attractions.map(attraction => `
+                <div class="attraction-card bg-white rounded-xl shadow-md p-6 cursor-pointer border-2 border-transparent" 
+                     onclick="showPhotos(${attraction.id})"
+                     ondblclick="toggleAttraction(${attraction.id})"
+                     title="Click to view photos, double-click to add to itinerary">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="text-3xl">${attraction.emoji}</div>
+                        <div class="flex flex-col items-end space-y-1">
+                            <span class="season-badge text-white text-xs px-2 py-1 rounded-full font-medium">
+                                ${attraction.bestTime}
+                            </span>
+                            <span class="price-badge text-white text-xs px-2 py-1 rounded-full font-medium">
+                                ${attraction.price}
+                            </span>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-lg text-gray-800 mb-2">${attraction.name}</h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">${attraction.description}</p>
+                    <div class="text-xs text-gray-500 mb-2">
+                        <strong>Best for:</strong> ${attraction.bestFor}
+                    </div>
+                    <div class="text-xs text-gray-500 mb-3">
+                        <strong>Duration:</strong> ${attraction.duration}
+                    </div>
+                    <div class="text-sm text-blue-600 font-medium">
+                        ${attraction.whyGo}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showPhotos(attractionId) {
+            const attraction = attractions.find(a => a.id === attractionId);
+            if (!attraction) return;
+
+            document.getElementById('modalTitle').textContent = attraction.name;
+            document.getElementById('modalDescription').textContent = attraction.description;
+            document.getElementById('modalWhyGo').textContent = attraction.whyGo;
+
+            const photoGrid = document.getElementById('photoGrid');
+            photoGrid.innerHTML = attraction.photos.map(photo => `
+                <div class="relative group overflow-hidden rounded-lg">
+                    <img src="${photo}" alt="${attraction.name}" 
+                         class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+                </div>
+            `).join('');
+
+            document.getElementById('photoModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoModal() {
+            document.getElementById('photoModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleAttraction(id) {
+            const attraction = attractions.find(a => a.id === id);
+            const index = selectedAttractions.findIndex(a => a.id === id);
+            
+            if (index > -1) {
+                selectedAttractions.splice(index, 1);
+            } else {
+                selectedAttractions.push(attraction);
+            }
+            
+            updateUI();
+        }
+
+        function updateUI() {
+            // Update card selection visual
+            document.querySelectorAll('.attraction-card').forEach((card, index) => {
+                const isSelected = selectedAttractions.some(a => a.id === attractions[index].id);
+                if (isSelected) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+
+            // Update itinerary list
+            const itineraryList = document.getElementById('itineraryList');
+            if (selectedAttractions.length === 0) {
+                itineraryList.innerHTML = '<p class="text-gray-500 text-center py-8">Select attractions to build your itinerary</p>';
+            } else {
+                itineraryList.innerHTML = selectedAttractions.map((attraction, index) => `
+                    <div class="itinerary-item bg-gray-50 rounded-lg p-4 border-l-4 border-blue-500">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-1">
+                                    <span class="text-lg mr-2">${attraction.emoji}</span>
+                                    <h4 class="font-semibold text-gray-800 text-sm">${attraction.name}</h4>
+                                </div>
+                                <div class="text-xs text-gray-600 mb-1">
+                                    Duration: ${attraction.duration}
+                                </div>
+                                <div class="text-xs text-green-600 font-medium">
+                                    ${attraction.price}
+                                </div>
+                            </div>
+                            <button onclick="removeAttraction(${attraction.id})" class="text-red-500 hover:text-red-700 ml-2">
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Update totals
+            const totalCost = selectedAttractions.reduce((sum, a) => sum + a.avgPrice, 0);
+            const totalDuration = selectedAttractions.reduce((sum, a) => sum + a.avgDuration, 0);
+            
+            document.getElementById('totalCost').textContent = `¥${totalCost}`;
+            document.getElementById('totalDuration').textContent = `${totalDuration} hours`;
+        }
+
+        function removeAttraction(id) {
+            selectedAttractions = selectedAttractions.filter(a => a.id !== id);
+            updateUI();
+        }
+
+        function clearItinerary() {
+            selectedAttractions = [];
+            updateUI();
+        }
+
+        function showSummary() {
+            if (selectedAttractions.length === 0) {
+                alert('Please select some attractions first!');
+                return;
+            }
+
+            const totalCost = selectedAttractions.reduce((sum, a) => sum + a.avgPrice, 0);
+            const totalDuration = selectedAttractions.reduce((sum, a) => sum + a.avgDuration, 0);
+
+            let itineraryText = `🏔️ MY HARBIN TRAVEL ITINERARY\n\n`;
+            itineraryText += `📅 Total Duration: ${totalDuration} hours\n`;
+            itineraryText += `💰 Estimated Cost: ¥${totalCost}\n\n`;
+            itineraryText += `ATTRACTIONS:\n`;
+            
+            selectedAttractions.forEach((attraction, index) => {
+                itineraryText += `\n${index + 1}. ${attraction.emoji} ${attraction.name}\n`;
+                itineraryText += `   Duration: ${attraction.duration}\n`;
+                itineraryText += `   Cost: ${attraction.price}\n`;
+                itineraryText += `   Best Time: ${attraction.bestTime}\n`;
+                itineraryText += `   Why Go: ${attraction.whyGo}\n`;
+            });
+
+            document.getElementById('summaryText').value = itineraryText;
+            document.getElementById('summaryModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSummaryModal() {
+            document.getElementById('summaryModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function copySummary() {
+            const summaryText = document.getElementById('summaryText');
+            summaryText.select();
+            summaryText.setSelectionRange(0, 99999); // For mobile devices
+            
+            try {
+                document.execCommand('copy');
+                // Show brief success message
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '✅ Copied!';
+                button.classList.add('bg-green-600');
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('bg-green-600');
+                }, 2000);
+            } catch (err) {
+                alert('Unable to copy to clipboard. Please select the text and copy manually.');
+            }
+        }
+
+        function downloadSummary() {
+            const summaryText = document.getElementById('summaryText').value;
+            const blob = new Blob([summaryText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'harbin-itinerary.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Initialize the app
+        renderAttractions();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'960a6b6e26afe2e4',t:'MTc1Mjc2MjQ0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
