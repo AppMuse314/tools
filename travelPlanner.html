@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✈️ Travel Planner & Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'nunito': ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        'pastel-peach': '#FFD4C4',
+                        'pastel-lavender': '#E6E6FA',
+                        'pastel-mint': '#B8E6B8',
+                        'pastel-yellow': '#FFF8DC',
+                        'soft-peach': '#FFCCCB',
+                        'soft-lavender': '#DDA0DD',
+                        'soft-mint': '#98FB98',
+                        'soft-yellow': '#FFFFE0'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-pastel-peach via-pastel-lavender to-pastel-mint min-h-screen font-nunito">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">✈️ Travel Planner & Tracker</h1>
+            <p class="text-gray-600 text-lg">Plan, track, and remember your amazing adventures! 🌍</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap justify-center mb-8 bg-white/50 backdrop-blur-sm rounded-2xl p-2 shadow-lg">
+            <button onclick="showTab('setup')" id="tab-setup" class="tab-btn active px-6 py-3 rounded-xl font-semibold transition-all duration-300 m-1">🌍 Trip Setup</button>
+            <button onclick="showTab('itinerary')" id="tab-itinerary" class="tab-btn px-6 py-3 rounded-xl font-semibold transition-all duration-300 m-1">📅 Itinerary</button>
+            <button onclick="showTab('expenses')" id="tab-expenses" class="tab-btn px-6 py-3 rounded-xl font-semibold transition-all duration-300 m-1">💰 Expenses</button>
+            <button onclick="showTab('summary')" id="tab-summary" class="tab-btn px-6 py-3 rounded-xl font-semibold transition-all duration-300 m-1">📊 Summary</button>
+        </div>
+
+        <!-- Trip Setup Tab -->
+        <div id="setup-tab" class="tab-content">
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Basic Trip Info -->
+                <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">✨ Trip Details</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Trip Name</label>
+                            <input type="text" id="trip-name" placeholder="My Amazing Adventure" class="w-full p-3 rounded-xl border-2 border-pastel-lavender focus:border-soft-lavender outline-none transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Country</label>
+                            <select id="country" class="w-full p-3 rounded-xl border-2 border-pastel-lavender focus:border-soft-lavender outline-none transition-colors">
+                                <option value="">Select a country...</option>
+                                <option value="afghanistan">🇦🇫 Afghanistan</option>
+                                <option value="albania">🇦🇱 Albania</option>
+                                <option value="algeria">🇩🇿 Algeria</option>
+                                <option value="andorra">🇦🇩 Andorra</option>
+                                <option value="angola">🇦🇴 Angola</option>
+                                <option value="antigua-and-barbuda">🇦🇬 Antigua and Barbuda</option>
+                                <option value="argentina">🇦🇷 Argentina</option>
+                                <option value="armenia">🇦🇲 Armenia</option>
+                                <option value="australia">🇦🇺 Australia</option>
+                                <option value="austria">🇦🇹 Austria</option>
+                                <option value="azerbaijan">🇦🇿 Azerbaijan</option>
+                                <option value="bahamas">🇧🇸 Bahamas</option>
+                                <option value="bahrain">🇧🇭 Bahrain</option>
+                                <option value="bangladesh">🇧🇩 Bangladesh</option>
+                                <option value="barbados">🇧🇧 Barbados</option>
+                                <option value="belarus">🇧🇾 Belarus</option>
+                                <option value="belgium">🇧🇪 Belgium</option>
+                                <option value="belize">🇧🇿 Belize</option>
+                                <option value="benin">🇧🇯 Benin</option>
+                                <option value="bhutan">🇧🇹 Bhutan</option>
+                                <option value="bolivia">🇧🇴 Bolivia</option>
+                                <option value="bosnia-and-herzegovina">🇧🇦 Bosnia and Herzegovina</option>
+                                <option value="botswana">🇧🇼 Botswana</option>
+                                <option value="brazil">🇧🇷 Brazil</option>
+                                <option value="brunei">🇧🇳 Brunei</option>
+                                <option value="bulgaria">🇧🇬 Bulgaria</option>
+                                <option value="burkina-faso">🇧🇫 Burkina Faso</option>
+                                <option value="burundi">🇧🇮 Burundi</option>
+                                <option value="cabo-verde">🇨🇻 Cabo Verde</option>
+                                <option value="cambodia">🇰🇭 Cambodia</option>
+                                <option value="cameroon">🇨🇲 Cameroon</option>
+                                <option value="canada">🇨🇦 Canada</option>
+                                <option value="central-african-republic">🇨🇫 Central African Republic</option>
+                                <option value="chad">🇹🇩 Chad</option>
+                                <option value="chile">🇨🇱 Chile</option>
+                                <option value="china">🇨🇳 China</option>
+                                <option value="colombia">🇨🇴 Colombia</option>
+                                <option value="comoros">🇰🇲 Comoros</option>
+                                <option value="congo-brazzaville">🇨🇬 Congo (Brazzaville)</option>
+                                <option value="congo-kinshasa">🇨🇩 Congo (Kinshasa)</option>
+                                <option value="costa-rica">🇨🇷 Costa Rica</option>
+                                <option value="croatia">🇭🇷 Croatia</option>
+                                <option value="cuba">🇨🇺 Cuba</option>
+                                <option value="cyprus">🇨🇾 Cyprus</option>
+                                <option value="czech-republic">🇨🇿 Czech Republic</option>
+                                <option value="denmark">🇩🇰 Denmark</option>
+                                <option value="djibouti">🇩🇯 Djibouti</option>
+                                <option value="dominica">🇩🇲 Dominica</option>
+                                <option value="dominican-republic">🇩🇴 Dominican Republic</option>
+                                <option value="ecuador">🇪🇨 Ecuador</option>
+                                <option value="egypt">🇪🇬 Egypt</option>
+                                <option value="el-salvador">🇸🇻 El Salvador</option>
+                                <option value="equatorial-guinea">🇬🇶 Equatorial Guinea</option>
+                                <option value="eritrea">🇪🇷 Eritrea</option>
+                                <option value="estonia">🇪🇪 Estonia</option>
+                                <option value="eswatini">🇸🇿 Eswatini</option>
+                                <option value="ethiopia">🇪🇹 Ethiopia</option>
+                                <option value="fiji">🇫🇯 Fiji</option>
+                                <option value="finland">🇫🇮 Finland</option>
+                                <option value="france">🇫🇷 France</option>
+                                <option value="gabon">🇬🇦 Gabon</option>
+                                <option value="gambia">🇬🇲 Gambia</option>
+                                <option value="georgia">🇬🇪 Georgia</option>
+                                <option value="germany">🇩🇪 Germany</option>
+                                <option value="ghana">🇬🇭 Ghana</option>
+                                <option value="greece">🇬🇷 Greece</option>
+                                <option value="grenada">🇬🇩 Grenada</option>
+                                <option value="guatemala">🇬🇹 Guatemala</option>
+                                <option value="guinea">🇬🇳 Guinea</option>
+                                <option value="guinea-bissau">🇬🇼 Guinea-Bissau</option>
+                                <option value="guyana">🇬🇾 Guyana</option>
+                                <option value="haiti">🇭🇹 Haiti</option>
+                                <option value="honduras">🇭🇳 Honduras</option>
+                                <option value="hungary">🇭🇺 Hungary</option>
+                                <option value="iceland">🇮🇸 Iceland</option>
+                                <option value="india">🇮🇳 India</option>
+                                <option value="indonesia">🇮🇩 Indonesia</option>
+                                <option value="iran">🇮🇷 Iran</option>
+                                <option value="iraq">🇮🇶 Iraq</option>
+                                <option value="ireland">🇮🇪 Ireland</option>
+                                <option value="israel">🇮🇱 Israel</option>
+                                <option value="italy">🇮🇹 Italy</option>
+                                <option value="ivory-coast">🇨🇮 Ivory Coast</option>
+                                <option value="jamaica">🇯🇲 Jamaica</option>
+                                <option value="japan">🇯🇵 Japan</option>
+                                <option value="jordan">🇯🇴 Jordan</option>
+                                <option value="kazakhstan">🇰🇿 Kazakhstan</option>
+                                <option value="kenya">🇰🇪 Kenya</option>
+                                <option value="kiribati">🇰🇮 Kiribati</option>
+                                <option value="kuwait">🇰🇼 Kuwait</option>
+                                <option value="kyrgyzstan">🇰🇬 Kyrgyzstan</option>
+                                <option value="laos">🇱🇦 Laos</option>
+                                <option value="latvia">🇱🇻 Latvia</option>
+                                <option value="lebanon">🇱🇧 Lebanon</option>
+                                <option value="lesotho">🇱🇸 Lesotho</option>
+                                <option value="liberia">🇱🇷 Liberia</option>
+                                <option value="libya">🇱🇾 Libya</option>
+                                <option value="liechtenstein">🇱🇮 Liechtenstein</option>
+                                <option value="lithuania">🇱🇹 Lithuania</option>
+                                <option value="luxembourg">🇱🇺 Luxembourg</option>
+                                <option value="madagascar">🇲🇬 Madagascar</option>
+                                <option value="malawi">🇲🇼 Malawi</option>
+                                <option value="malaysia">🇲🇾 Malaysia</option>
+                                <option value="maldives">🇲🇻 Maldives</option>
+                                <option value="mali">🇲🇱 Mali</option>
+                                <option value="malta">🇲🇹 Malta</option>
+                                <option value="marshall-islands">🇲🇭 Marshall Islands</option>
+                                <option value="mauritania">🇲🇷 Mauritania</option>
+                                <option value="mauritius">🇲🇺 Mauritius</option>
+                                <option value="mexico">🇲🇽 Mexico</option>
+                                <option value="micronesia">🇫🇲 Micronesia</option>
+                                <option value="moldova">🇲🇩 Moldova</option>
+                                <option value="monaco">🇲🇨 Monaco</option>
+                                <option value="mongolia">🇲🇳 Mongolia</option>
+                                <option value="montenegro">🇲🇪 Montenegro</option>
+                                <option value="morocco">🇲🇦 Morocco</option>
+                                <option value="mozambique">🇲🇿 Mozambique</option>
+                                <option value="myanmar">🇲🇲 Myanmar</option>
+                                <option value="namibia">🇳🇦 Namibia</option>
+                                <option value="nauru">🇳🇷 Nauru</option>
+                                <option value="nepal">🇳🇵 Nepal</option>
+                                <option value="netherlands">🇳🇱 Netherlands</option>
+                                <option value="new-zealand">🇳🇿 New Zealand</option>
+                                <option value="nicaragua">🇳🇮 Nicaragua</option>
+                                <option value="niger">🇳🇪 Niger</option>
+                                <option value="nigeria">🇳🇬 Nigeria</option>
+                                <option value="north-korea">🇰🇵 North Korea</option>
+                                <option value="north-macedonia">🇲🇰 North Macedonia</option>
+                                <option value="norway">🇳🇴 Norway</option>
+                                <option value="oman">🇴🇲 Oman</option>
+                                <option value="pakistan">🇵🇰 Pakistan</option>
+                                <option value="palau">🇵🇼 Palau</option>
+                                <option value="palestine">🇵🇸 Palestine</option>
+                                <option value="panama">🇵🇦 Panama</option>
+                                <option value="papua-new-guinea">🇵🇬 Papua New Guinea</option>
+                                <option value="paraguay">🇵🇾 Paraguay</option>
+                                <option value="peru">🇵🇪 Peru</option>
+                                <option value="philippines">🇵🇭 Philippines</option>
+                                <option value="poland">🇵🇱 Poland</option>
+                                <option value="portugal">🇵🇹 Portugal</option>
+                                <option value="qatar">🇶🇦 Qatar</option>
+                                <option value="romania">🇷🇴 Romania</option>
+                                <option value="russia">🇷🇺 Russia</option>
+                                <option value="rwanda">🇷🇼 Rwanda</option>
+                                <option value="saint-kitts-and-nevis">🇰🇳 Saint Kitts and Nevis</option>
+                                <option value="saint-lucia">🇱🇨 Saint Lucia</option>
+                                <option value="saint-vincent-and-the-grenadines">🇻🇨 Saint Vincent and the Grenadines</option>
+                                <option value="samoa">🇼🇸 Samoa</option>
+                                <option value="san-marino">🇸🇲 San Marino</option>
+                                <option value="sao-tome-and-principe">🇸🇹 Sao Tome and Principe</option>
+                                <option value="saudi-arabia">🇸🇦 Saudi Arabia</option>
+                                <option value="senegal">🇸🇳 Senegal</option>
+                                <option value="serbia">🇷🇸 Serbia</option>
+                                <option value="seychelles">🇸🇨 Seychelles</option>
+                                <option value="sierra-leone">🇸🇱 Sierra Leone</option>
+                                <option value="singapore">🇸🇬 Singapore</option>
+                                <option value="slovakia">🇸🇰 Slovakia</option>
+                                <option value="slovenia">🇸🇮 Slovenia</option>
+                                <option value="solomon-islands">🇸🇧 Solomon Islands</option>
+                                <option value="somalia">🇸🇴 Somalia</option>
+                                <option value="south-africa">🇿🇦 South Africa</option>
+                                <option value="south-korea">🇰🇷 South Korea</option>
+                                <option value="south-sudan">🇸🇸 South Sudan</option>
+                                <option value="spain">🇪🇸 Spain</option>
+                                <option value="sri-lanka">🇱🇰 Sri Lanka</option>
+                                <option value="sudan">🇸🇩 Sudan</option>
+                                <option value="suriname">🇸🇷 Suriname</option>
+                                <option value="sweden">🇸🇪 Sweden</option>
+                                <option value="switzerland">🇨🇭 Switzerland</option>
+                                <option value="syria">🇸🇾 Syria</option>
+                                <option value="taiwan">🇹🇼 Taiwan</option>
+                                <option value="tajikistan">🇹🇯 Tajikistan</option>
+                                <option value="tanzania">🇹🇿 Tanzania</option>
+                                <option value="thailand">🇹🇭 Thailand</option>
+                                <option value="timor-leste">🇹🇱 Timor-Leste</option>
+                                <option value="togo">🇹🇬 Togo</option>
+                                <option value="tonga">🇹🇴 Tonga</option>
+                                <option value="trinidad-and-tobago">🇹🇹 Trinidad and Tobago</option>
+                                <option value="tunisia">🇹🇳 Tunisia</option>
+                                <option value="turkey">🇹🇷 Turkey</option>
+                                <option value="turkmenistan">🇹🇲 Turkmenistan</option>
+                                <option value="tuvalu">🇹🇻 Tuvalu</option>
+                                <option value="uganda">🇺🇬 Uganda</option>
+                                <option value="ukraine">🇺🇦 Ukraine</option>
+                                <option value="united-arab-emirates">🇦🇪 United Arab Emirates</option>
+                                <option value="united-kingdom">🇬🇧 United Kingdom</option>
+                                <option value="united-states">🇺🇸 United States</option>
+                                <option value="uruguay">🇺🇾 Uruguay</option>
+                                <option value="uzbekistan">🇺🇿 Uzbekistan</option>
+                                <option value="vanuatu">🇻🇺 Vanuatu</option>
+                                <option value="vatican-city">🇻🇦 Vatican City</option>
+                                <option value="venezuela">🇻🇪 Venezuela</option>
+                                <option value="vietnam">🇻🇳 Vietnam</option>
+                                <option value="yemen">🇾🇪 Yemen</option>
+                                <option value="zambia">🇿🇲 Zambia</option>
+                                <option value="zimbabwe">🇿🇼 Zimbabwe</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Cities</label>
+                            <select multiple id="cities" class="w-full p-3 rounded-xl border-2 border-pastel-lavender focus:border-soft-lavender outline-none transition-colors h-32">
+                                <option value="">Select a country first...</option>
+                            </select>
+                            <p class="text-sm text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple cities</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dates & Budget -->
+                <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">📅 Dates & Budget</h3>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Start Date</label>
+                                <input type="date" id="start-date" class="w-full p-3 rounded-xl border-2 border-pastel-mint focus:border-soft-mint outline-none transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">End Date</label>
+                                <input type="date" id="end-date" class="w-full p-3 rounded-xl border-2 border-pastel-mint focus:border-soft-mint outline-none transition-colors">
+                            </div>
+                        </div>
+                        <div class="bg-pastel-yellow/50 rounded-xl p-4">
+                            <p class="text-gray-700"><span class="font-semibold">Duration:</span> <span id="duration">0 days</span></p>
+                            <p class="text-gray-700"><span class="font-semibold">Days Remaining:</span> <span id="days-remaining">-</span></p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Budget</label>
+                                <input type="number" id="budget" placeholder="5000" class="w-full p-3 rounded-xl border-2 border-pastel-yellow focus:border-soft-yellow outline-none transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Currency</label>
+                                <select id="budget-currency" class="w-full p-3 rounded-xl border-2 border-pastel-yellow focus:border-soft-yellow outline-none transition-colors">
+                                    <option value="USD">💵 USD</option>
+                                    <option value="EUR">💶 EUR</option>
+                                    <option value="JPY">💴 JPY</option>
+                                    <option value="PHP">🇵🇭 PHP</option>
+                                    <option value="THB">🇹🇭 THB</option>
+                                    <option value="SGD">🇸🇬 SGD</option>
+                                    <option value="KRW">🇰🇷 KRW</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button onclick="saveTripSetup()" class="w-full bg-gradient-to-r from-soft-peach to-soft-lavender text-gray-800 font-bold py-3 px-6 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                            💾 Save Trip Setup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Itinerary Tab -->
+        <div id="itinerary-tab" class="tab-content hidden">
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- AI Suggestions -->
+                <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">🤖 AI Suggestions</h3>
+                    <div class="space-y-4">
+                        <button onclick="generateSuggestions()" class="w-full bg-gradient-to-r from-pastel-mint to-soft-mint text-gray-800 font-bold py-3 px-6 rounded-xl hover:shadow-lg transition-all duration-300">
+                            ✨ Generate Suggestions
+                        </button>
+                        <div id="suggestions" class="space-y-2">
+                            <!-- AI suggestions will appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Planner -->
+                <div class="lg:col-span-2 bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800">📅 Daily Planner</h3>
+                        <div class="flex gap-2">
+                            <button onclick="prevDay()" class="bg-pastel-lavender hover:bg-soft-lavender text-gray-800 font-bold py-2 px-4 rounded-xl transition-colors">←</button>
+                            <span id="current-day" class="bg-pastel-yellow px-4 py-2 rounded-xl font-semibold">Day 1</span>
+                            <button onclick="nextDay()" class="bg-pastel-lavender hover:bg-soft-lavender text-gray-800 font-bold py-2 px-4 rounded-xl transition-colors">→</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Add Activity Form -->
+                    <div class="bg-pastel-mint/30 rounded-xl p-4 mb-4">
+                        <h4 class="font-semibold text-gray-800 mb-3">➕ Add Activity</h4>
+                        <div class="grid md:grid-cols-2 gap-3">
+                            <input type="text" id="activity-name" placeholder="Activity name" class="p-2 rounded-lg border border-gray-300 outline-none focus:border-soft-mint">
+                            <input type="text" id="activity-location" placeholder="Location/Address" class="p-2 rounded-lg border border-gray-300 outline-none focus:border-soft-mint">
+                            <input type="time" id="activity-time" class="p-2 rounded-lg border border-gray-300 outline-none focus:border-soft-mint">
+                            <input type="number" id="activity-duration" placeholder="Duration (hours)" class="p-2 rounded-lg border border-gray-300 outline-none focus:border-soft-mint">
+                        </div>
+                        <div class="flex gap-2 mt-3">
+                            <button onclick="addActivity()" class="bg-soft-mint text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-pastel-mint transition-colors">Add Activity</button>
+                            <button onclick="searchPlaces()" class="bg-soft-peach text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-pastel-peach transition-colors">🗺️ Search Places</button>
+                        </div>
+                    </div>
+
+                    <!-- Daily Activities -->
+                    <div id="daily-activities" class="space-y-3">
+                        <!-- Activities will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expenses Tab -->
+        <div id="expenses-tab" class="tab-content hidden">
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Add Expense -->
+                <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">💰 Add Expense</h3>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Amount</label>
+                                <input type="number" id="expense-amount" placeholder="100" class="w-full p-3 rounded-xl border-2 border-pastel-peach focus:border-soft-peach outline-none transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Currency</label>
+                                <select id="expense-currency" class="w-full p-3 rounded-xl border-2 border-pastel-peach focus:border-soft-peach outline-none transition-colors">
+                                    <option value="local">Country Currency</option>
+                                    <option value="USD">💵 USD</option>
+                                    <option value="EUR">💶 EUR</option>
+                                    <option value="JPY">💴 JPY</option>
+                                    <option value="PHP">🇵🇭 PHP</option>
+                                    <option value="THB">🇹🇭 THB</option>
+                                    <option value="SGD">🇸🇬 SGD</option>
+                                    <option value="KRW">🇰🇷 KRW</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Category</label>
+                            <select id="expense-category" class="w-full p-3 rounded-xl border-2 border-pastel-mint focus:border-soft-mint outline-none transition-colors">
+                                <option value="pre-departure">🎒 Pre-departure</option>
+                                <option value="transport">🚗 Transportation</option>
+                                <option value="food">🍜 Food</option>
+                                <option value="airfare">✈️ Airfare</option>
+                                <option value="accommodation">🏨 Accommodation</option>
+                                <option value="shopping">🛍️ Shopping</option>
+                                <option value="activities">🎡 Activities</option>
+                                <option value="other">📦 Other</option>
+                                <option value="custom">✨ Custom</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Description</label>
+                            <input type="text" id="expense-description" placeholder="What did you spend on?" class="w-full p-3 rounded-xl border-2 border-pastel-yellow focus:border-soft-yellow outline-none transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Date</label>
+                            <input type="date" id="expense-date" class="w-full p-3 rounded-xl border-2 border-pastel-lavender focus:border-soft-lavender outline-none transition-colors">
+                        </div>
+                        <button onclick="addExpense()" class="w-full bg-gradient-to-r from-soft-peach to-soft-mint text-gray-800 font-bold py-3 px-6 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                            💾 Add Expense
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Expense Overview -->
+                <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">📊 Expense Overview</h3>
+                    <div class="space-y-4">
+                        <!-- Budget Summary -->
+                        <div class="bg-gradient-to-r from-pastel-yellow to-pastel-peach rounded-xl p-4">
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <p class="text-sm text-gray-600">Allocated</p>
+                                    <p class="text-lg font-bold" id="allocated-budget">$0</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Spent</p>
+                                    <p class="text-lg font-bold" id="total-spent">$0</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Remaining</p>
+                                    <p class="text-lg font-bold" id="budget-remaining">$0</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category Breakdown -->
+                        <div id="category-breakdown" class="space-y-2">
+                            <!-- Category expenses will appear here -->
+                        </div>
+
+                        <!-- Recent Expenses -->
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-2">Recent Expenses</h4>
+                            <div id="recent-expenses" class="space-y-2 max-h-64 overflow-y-auto">
+                                <!-- Recent expenses will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Tab -->
+        <div id="summary-tab" class="tab-content hidden">
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Trip Overview -->
+                <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">🌟 Trip Overview</h3>
+                    <div id="trip-overview" class="space-y-4">
+                        <!-- Trip details will be displayed here -->
+                    </div>
+                </div>
+
+                <!-- Reflection Journal -->
+                <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">📝 Travel Reflection</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">✨ Highlight of the trip</label>
+                            <textarea id="trip-highlight" placeholder="What was the most amazing moment?" class="w-full p-3 rounded-xl border-2 border-pastel-peach focus:border-soft-peach outline-none transition-colors h-20 resize-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">🧠 What did I learn?</label>
+                            <textarea id="trip-learning" placeholder="About myself or the world..." class="w-full p-3 rounded-xl border-2 border-pastel-mint focus:border-soft-mint outline-none transition-colors h-20 resize-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">💫 Unforgettable moments</label>
+                            <textarea id="unforgettable-moments" placeholder="Moments I never want to forget..." class="w-full p-3 rounded-xl border-2 border-pastel-lavender focus:border-soft-lavender outline-none transition-colors h-20 resize-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">🗺️ Travel tips for others</label>
+                            <textarea id="travel-tips" placeholder="Share your wisdom with fellow explorers..." class="w-full p-3 rounded-xl border-2 border-pastel-yellow focus:border-soft-yellow outline-none transition-colors h-20 resize-none"></textarea>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="saveReflection()" class="bg-gradient-to-r from-soft-lavender to-soft-peach text-gray-800 font-bold py-3 px-6 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                                💾 Save Reflection
+                            </button>
+                            <button onclick="exportTripSummary()" class="bg-gradient-to-r from-soft-mint to-soft-yellow text-gray-800 font-bold py-3 px-6 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                                📤 Export Trip
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentDay = 1;
+        let tripData = {
+            setup: {},
+            itinerary: {},
+            expenses: [],
+            reflection: {}
+        };
+
+        // Cities database by country
+        const citiesByCountry = {
+            'japan': [
+                { value: 'tokyo', name: '🏙️ Tokyo' },
+                { value: 'kyoto', name: '🏯 Kyoto' },
+                { value: 'osaka', name: '🍜 Osaka' },
+                { value: 'hiroshima', name: '🕊️ Hiroshima' },
+                { value: 'nara', name: '🦌 Nara' },
+                { value: 'yokohama', name: '🌊 Yokohama' },
+                { value: 'kobe', name: '🥩 Kobe' },
+                { value: 'fukuoka', name: '🍲 Fukuoka' }
+            ],
+            'thailand': [
+                { value: 'bangkok', name: '🛺 Bangkok' },
+                { value: 'phuket', name: '🏖️ Phuket' },
+                { value: 'chiang-mai', name: '🏔️ Chiang Mai' },
+                { value: 'pattaya', name: '🌴 Pattaya' },
+                { value: 'krabi', name: '🏝️ Krabi' },
+                { value: 'koh-samui', name: '🥥 Koh Samui' },
+                { value: 'ayutthaya', name: '🏛️ Ayutthaya' }
+            ],
+            'philippines': [
+                { value: 'manila', name: '🏢 Manila' },
+                { value: 'cebu', name: '🏝️ Cebu' },
+                { value: 'boracay', name: '🌴 Boracay' },
+                { value: 'palawan', name: '🏖️ Palawan' },
+                { value: 'baguio', name: '🏔️ Baguio' },
+                { value: 'davao', name: '🌺 Davao' },
+                { value: 'iloilo', name: '🏛️ Iloilo' }
+            ],
+            'singapore': [
+                { value: 'singapore-city', name: '🦁 Singapore City' },
+                { value: 'sentosa', name: '🎢 Sentosa' },
+                { value: 'marina-bay', name: '🏙️ Marina Bay' },
+                { value: 'orchard', name: '🛍️ Orchard' }
+            ],
+            'south-korea': [
+                { value: 'seoul', name: '🏙️ Seoul' },
+                { value: 'busan', name: '🌊 Busan' },
+                { value: 'jeju', name: '🌋 Jeju' },
+                { value: 'incheon', name: '✈️ Incheon' },
+                { value: 'daegu', name: '🏛️ Daegu' },
+                { value: 'gwangju', name: '🎨 Gwangju' }
+            ],
+            'vietnam': [
+                { value: 'ho-chi-minh', name: '🏍️ Ho Chi Minh City' },
+                { value: 'hanoi', name: '🏛️ Hanoi' },
+                { value: 'da-nang', name: '🏖️ Da Nang' },
+                { value: 'hoi-an', name: '🏮 Hoi An' },
+                { value: 'nha-trang', name: '🌊 Nha Trang' },
+                { value: 'hue', name: '👑 Hue' }
+            ],
+            'malaysia': [
+                { value: 'kuala-lumpur', name: '🏗️ Kuala Lumpur' },
+                { value: 'penang', name: '🍛 Penang' },
+                { value: 'malacca', name: '🏛️ Malacca' },
+                { value: 'langkawi', name: '🏝️ Langkawi' },
+                { value: 'kota-kinabalu', name: '🏔️ Kota Kinabalu' },
+                { value: 'johor-bahru', name: '🌉 Johor Bahru' }
+            ],
+            'indonesia': [
+                { value: 'jakarta', name: '🌆 Jakarta' },
+                { value: 'bali', name: '🌺 Bali' },
+                { value: 'yogyakarta', name: '🏛️ Yogyakarta' },
+                { value: 'bandung', name: '🏔️ Bandung' },
+                { value: 'surabaya', name: '🏢 Surabaya' },
+                { value: 'lombok', name: '🏖️ Lombok' }
+            ],
+            'france': [
+                { value: 'paris', name: '🗼 Paris' },
+                { value: 'nice', name: '🌊 Nice' },
+                { value: 'lyon', name: '🍷 Lyon' },
+                { value: 'marseille', name: '⛵ Marseille' },
+                { value: 'cannes', name: '🎬 Cannes' },
+                { value: 'bordeaux', name: '🍇 Bordeaux' },
+                { value: 'strasbourg', name: '🏰 Strasbourg' }
+            ],
+            'united-kingdom': [
+                { value: 'london', name: '🎡 London' },
+                { value: 'edinburgh', name: '🏰 Edinburgh' },
+                { value: 'manchester', name: '⚽ Manchester' },
+                { value: 'liverpool', name: '🎵 Liverpool' },
+                { value: 'birmingham', name: '🏭 Birmingham' },
+                { value: 'glasgow', name: '🏴󠁧󠁢󠁳󠁣󠁴󠁿 Glasgow' },
+                { value: 'bath', name: '🛁 Bath' }
+            ],
+            'united-states': [
+                { value: 'new-york', name: '🗽 New York' },
+                { value: 'los-angeles', name: '🌴 Los Angeles' },
+                { value: 'chicago', name: '🏙️ Chicago' },
+                { value: 'miami', name: '🏖️ Miami' },
+                { value: 'las-vegas', name: '🎰 Las Vegas' },
+                { value: 'san-francisco', name: '🌉 San Francisco' },
+                { value: 'seattle', name: '☕ Seattle' },
+                { value: 'boston', name: '🦞 Boston' }
+            ],
+            'australia': [
+                { value: 'sydney', name: '🏄 Sydney' },
+                { value: 'melbourne', name: '☕ Melbourne' },
+                { value: 'brisbane', name: '🌞 Brisbane' },
+                { value: 'perth', name: '🌊 Perth' },
+                { value: 'adelaide', name: '🍷 Adelaide' },
+                { value: 'gold-coast', name: '🏖️ Gold Coast' },
+                { value: 'cairns', name: '🐠 Cairns' }
+            ],
+            'united-arab-emirates': [
+                { value: 'dubai', name: '🏗️ Dubai' },
+                { value: 'abu-dhabi', name: '🕌 Abu Dhabi' },
+                { value: 'sharjah', name: '🎨 Sharjah' },
+                { value: 'fujairah', name: '🏔️ Fujairah' }
+            ],
+            'turkey': [
+                { value: 'istanbul', name: '🕌 Istanbul' },
+                { value: 'ankara', name: '🏛️ Ankara' },
+                { value: 'antalya', name: '🏖️ Antalya' },
+                { value: 'cappadocia', name: '🎈 Cappadocia' },
+                { value: 'izmir', name: '🌊 Izmir' },
+                { value: 'bodrum', name: '⛵ Bodrum' }
+            ],
+            'italy': [
+                { value: 'rome', name: '🏛️ Rome' },
+                { value: 'milan', name: '👗 Milan' },
+                { value: 'venice', name: '🚤 Venice' },
+                { value: 'florence', name: '🎨 Florence' },
+                { value: 'naples', name: '🍕 Naples' },
+                { value: 'turin', name: '🏔️ Turin' },
+                { value: 'bologna', name: '🍝 Bologna' }
+            ],
+            'spain': [
+                { value: 'madrid', name: '👑 Madrid' },
+                { value: 'barcelona', name: '🏛️ Barcelona' },
+                { value: 'seville', name: '💃 Seville' },
+                { value: 'valencia', name: '🥘 Valencia' },
+                { value: 'bilbao', name: '🏛️ Bilbao' },
+                { value: 'granada', name: '🏰 Granada' },
+                { value: 'toledo', name: '⚔️ Toledo' }
+            ],
+            'netherlands': [
+                { value: 'amsterdam', name: '🚲 Amsterdam' },
+                { value: 'rotterdam', name: '🏗️ Rotterdam' },
+                { value: 'the-hague', name: '🏛️ The Hague' },
+                { value: 'utrecht', name: '🏰 Utrecht' },
+                { value: 'eindhoven', name: '💡 Eindhoven' },
+                { value: 'groningen', name: '🎓 Groningen' }
+            ],
+            'germany': [
+                { value: 'berlin', name: '🧱 Berlin' },
+                { value: 'munich', name: '🍺 Munich' },
+                { value: 'hamburg', name: '⚓ Hamburg' },
+                { value: 'cologne', name: '⛪ Cologne' },
+                { value: 'frankfurt', name: '🏦 Frankfurt' },
+                { value: 'dresden', name: '🏰 Dresden' },
+                { value: 'heidelberg', name: '🏛️ Heidelberg' }
+            ],
+            'china': [
+                { value: 'beijing', name: '🏯 Beijing' },
+                { value: 'shanghai', name: '🏙️ Shanghai' },
+                { value: 'guangzhou', name: '🌆 Guangzhou' },
+                { value: 'shenzhen', name: '🏢 Shenzhen' },
+                { value: 'chengdu', name: '🐼 Chengdu' },
+                { value: 'xian', name: '🏺 Xi\'an' },
+                { value: 'hangzhou', name: '🌸 Hangzhou' }
+            ],
+            'india': [
+                { value: 'mumbai', name: '🏙️ Mumbai' },
+                { value: 'delhi', name: '🏛️ Delhi' },
+                { value: 'bangalore', name: '💻 Bangalore' },
+                { value: 'kolkata', name: '🎭 Kolkata' },
+                { value: 'chennai', name: '🏖️ Chennai' },
+                { value: 'hyderabad', name: '💎 Hyderabad' },
+                { value: 'pune', name: '🎓 Pune' },
+                { value: 'jaipur', name: '🏰 Jaipur' },
+                { value: 'goa', name: '🏖️ Goa' }
+            ],
+            'canada': [
+                { value: 'toronto', name: '🏙️ Toronto' },
+                { value: 'vancouver', name: '🏔️ Vancouver' },
+                { value: 'montreal', name: '🍁 Montreal' },
+                { value: 'calgary', name: '🤠 Calgary' },
+                { value: 'ottawa', name: '🏛️ Ottawa' },
+                { value: 'quebec-city', name: '🏰 Quebec City' },
+                { value: 'winnipeg', name: '❄️ Winnipeg' }
+            ],
+            'brazil': [
+                { value: 'rio-de-janeiro', name: '🏖️ Rio de Janeiro' },
+                { value: 'sao-paulo', name: '🏙️ São Paulo' },
+                { value: 'salvador', name: '🎭 Salvador' },
+                { value: 'brasilia', name: '🏛️ Brasília' },
+                { value: 'fortaleza', name: '🌊 Fortaleza' },
+                { value: 'recife', name: '🏖️ Recife' },
+                { value: 'manaus', name: '🌳 Manaus' }
+            ]
+        };
+
+        // Exchange rates (simplified - in real app would fetch from API)
+        const exchangeRates = {
+            USD: 1,
+            EUR: 0.85,
+            JPY: 110,
+            PHP: 50,
+            THB: 33,
+            SGD: 1.35,
+            KRW: 1200
+        };
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-white', 'shadow-md');
+                btn.classList.add('text-gray-600', 'hover:text-gray-800');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            // Add active class to selected button
+            const activeBtn = document.getElementById('tab-' + tabName);
+            activeBtn.classList.add('active', 'bg-white', 'shadow-md');
+            activeBtn.classList.remove('text-gray-600', 'hover:text-gray-800');
+        }
+
+        // Trip Setup Functions
+        function saveTripSetup() {
+            const setup = {
+                name: document.getElementById('trip-name').value,
+                country: document.getElementById('country').value,
+                cities: Array.from(document.getElementById('cities').selectedOptions).map(option => option.value),
+                startDate: document.getElementById('start-date').value,
+                endDate: document.getElementById('end-date').value,
+                budget: parseFloat(document.getElementById('budget').value) || 0,
+                currency: document.getElementById('budget-currency').value
+            };
+            
+            tripData.setup = setup;
+            updateTripInfo();
+            
+            // Show success message
+            showNotification('Trip setup saved! ✨', 'success');
+        }
+
+        function updateTripInfo() {
+            const setup = tripData.setup;
+            if (setup.startDate && setup.endDate) {
+                const start = new Date(setup.startDate);
+                const end = new Date(setup.endDate);
+                const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+                const today = new Date();
+                const daysRemaining = Math.ceil((start - today) / (1000 * 60 * 60 * 24));
+                
+                document.getElementById('duration').textContent = duration + ' days';
+                document.getElementById('days-remaining').textContent = daysRemaining > 0 ? daysRemaining + ' days' : 'Trip started!';
+            }
+        }
+
+        // Date change listeners
+        document.getElementById('start-date').addEventListener('change', updateTripInfo);
+        document.getElementById('end-date').addEventListener('change', updateTripInfo);
+
+        // Country change listener
+        document.getElementById('country').addEventListener('change', function() {
+            updateCitiesDropdown(this.value);
+        });
+
+        function updateCitiesDropdown(countryValue) {
+            const citiesSelect = document.getElementById('cities');
+            citiesSelect.innerHTML = '';
+            
+            if (!countryValue) {
+                citiesSelect.innerHTML = '<option value="">Select a country first...</option>';
+                return;
+            }
+            
+            const cities = citiesByCountry[countryValue];
+            if (cities && cities.length > 0) {
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.value;
+                    option.textContent = city.name;
+                    citiesSelect.appendChild(option);
+                });
+            } else {
+                // Generic cities for countries not in our database
+                const genericCities = [
+                    { value: 'capital', name: '🏛️ Capital City' },
+                    { value: 'major-city-1', name: '🏙️ Major City' },
+                    { value: 'coastal-city', name: '🌊 Coastal City' },
+                    { value: 'mountain-city', name: '🏔️ Mountain City' },
+                    { value: 'historic-city', name: '🏰 Historic City' }
+                ];
+                
+                genericCities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.value;
+                    option.textContent = city.name;
+                    citiesSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Itinerary Functions
+        function generateSuggestions() {
+            const suggestions = [
+                { name: '🏯 Tokyo Skytree', location: 'Tokyo', rating: 4.5, type: 'attraction' },
+                { name: '🍜 Ramen Street', location: 'Tokyo Station', rating: 4.8, type: 'food' },
+                { name: '🌸 Senso-ji Temple', location: 'Asakusa', rating: 4.6, type: 'cultural' },
+                { name: '🛍️ Shibuya Crossing', location: 'Shibuya', rating: 4.4, type: 'experience' },
+                { name: '🎌 Meiji Shrine', location: 'Harajuku', rating: 4.7, type: 'cultural' }
+            ];
+            
+            const suggestionsDiv = document.getElementById('suggestions');
+            suggestionsDiv.innerHTML = suggestions.map(suggestion => `
+                <div class="bg-white/50 rounded-lg p-3 cursor-pointer hover:bg-white/70 transition-colors" onclick="addSuggestionToDay('${suggestion.name}', '${suggestion.location}')">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-semibold">${suggestion.name}</p>
+                            <p class="text-sm text-gray-600">${suggestion.location}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm">⭐ ${suggestion.rating}</p>
+                            <button class="text-xs bg-pastel-mint px-2 py-1 rounded-full">+ Add</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addSuggestionToDay(name, location) {
+            document.getElementById('activity-name').value = name;
+            document.getElementById('activity-location').value = location;
+            showNotification('Suggestion added to form! 🎉', 'success');
+        }
+
+        function addActivity() {
+            const activity = {
+                name: document.getElementById('activity-name').value,
+                location: document.getElementById('activity-location').value,
+                time: document.getElementById('activity-time').value,
+                duration: document.getElementById('activity-duration').value,
+                day: currentDay
+            };
+            
+            if (!activity.name) {
+                showNotification('Please enter an activity name! 📝', 'error');
+                return;
+            }
+            
+            if (!tripData.itinerary[currentDay]) {
+                tripData.itinerary[currentDay] = [];
+            }
+            
+            tripData.itinerary[currentDay].push(activity);
+            displayDayActivities();
+            
+            // Clear form
+            document.getElementById('activity-name').value = '';
+            document.getElementById('activity-location').value = '';
+            document.getElementById('activity-time').value = '';
+            document.getElementById('activity-duration').value = '';
+            
+            showNotification('Activity added! 🎉', 'success');
+        }
+
+        function displayDayActivities() {
+            const activitiesDiv = document.getElementById('daily-activities');
+            const dayActivities = tripData.itinerary[currentDay] || [];
+            
+            if (dayActivities.length === 0) {
+                activitiesDiv.innerHTML = '<p class="text-gray-500 text-center py-8">No activities planned for this day yet. Add some above! 📅</p>';
+                return;
+            }
+            
+            activitiesDiv.innerHTML = dayActivities.map((activity, index) => `
+                <div class="bg-white/50 rounded-xl p-4 hover:bg-white/70 transition-colors">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">${activity.name}</h4>
+                            <p class="text-gray-600 text-sm">${activity.location}</p>
+                            <div class="flex gap-4 mt-2 text-sm text-gray-500">
+                                ${activity.time ? `<span>🕐 ${activity.time}</span>` : ''}
+                                ${activity.duration ? `<span>⏱️ ${activity.duration}h</span>` : ''}
+                            </div>
+                        </div>
+                        <button onclick="removeActivity(${index})" class="text-red-400 hover:text-red-600 transition-colors">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeActivity(index) {
+            tripData.itinerary[currentDay].splice(index, 1);
+            displayDayActivities();
+            showNotification('Activity removed! 🗑️', 'success');
+        }
+
+        function prevDay() {
+            if (currentDay > 1) {
+                currentDay--;
+                document.getElementById('current-day').textContent = `Day ${currentDay}`;
+                displayDayActivities();
+            }
+        }
+
+        function nextDay() {
+            currentDay++;
+            document.getElementById('current-day').textContent = `Day ${currentDay}`;
+            displayDayActivities();
+        }
+
+        function searchPlaces() {
+            showNotification('🗺️ In a real app, this would open Google Maps integration!', 'info');
+        }
+
+        // Expense Functions
+        function addExpense() {
+            const expense = {
+                amount: parseFloat(document.getElementById('expense-amount').value),
+                currency: document.getElementById('expense-currency').value,
+                category: document.getElementById('expense-category').value,
+                description: document.getElementById('expense-description').value,
+                date: document.getElementById('expense-date').value || new Date().toISOString().split('T')[0],
+                id: Date.now()
+            };
+            
+            if (!expense.amount || !expense.description) {
+                showNotification('Please fill in amount and description! 💰', 'error');
+                return;
+            }
+            
+            tripData.expenses.push(expense);
+            updateExpenseOverview();
+            
+            // Clear form
+            document.getElementById('expense-amount').value = '';
+            document.getElementById('expense-description').value = '';
+            
+            showNotification('Expense added! 💾', 'success');
+        }
+
+        function updateExpenseOverview() {
+            const budgetCurrency = tripData.setup.currency || 'USD';
+            const allocatedBudget = tripData.setup.budget || 0;
+            
+            // Calculate total spent in budget currency
+            let totalSpent = 0;
+            const categoryTotals = {};
+            
+            tripData.expenses.forEach(expense => {
+                const convertedAmount = convertCurrency(expense.amount, expense.currency, budgetCurrency);
+                totalSpent += convertedAmount;
+                
+                if (!categoryTotals[expense.category]) {
+                    categoryTotals[expense.category] = 0;
+                }
+                categoryTotals[expense.category] += convertedAmount;
+            });
+            
+            const remaining = allocatedBudget - totalSpent;
+            
+            // Update budget summary
+            document.getElementById('allocated-budget').textContent = formatCurrency(allocatedBudget, budgetCurrency);
+            document.getElementById('total-spent').textContent = formatCurrency(totalSpent, budgetCurrency);
+            document.getElementById('budget-remaining').textContent = formatCurrency(remaining, budgetCurrency);
+            
+            // Update category breakdown
+            const categoryDiv = document.getElementById('category-breakdown');
+            const categoryEmojis = {
+                'pre-departure': '🎒',
+                'transport': '🚗',
+                'food': '🍜',
+                'airfare': '✈️',
+                'accommodation': '🏨',
+                'shopping': '🛍️',
+                'activities': '🎡',
+                'other': '📦',
+                'custom': '✨'
+            };
+            
+            categoryDiv.innerHTML = Object.entries(categoryTotals).map(([category, total]) => `
+                <div class="flex justify-between items-center bg-white/50 rounded-lg p-3">
+                    <span>${categoryEmojis[category]} ${category.charAt(0).toUpperCase() + category.slice(1)}</span>
+                    <span class="font-semibold">${formatCurrency(total, budgetCurrency)}</span>
+                </div>
+            `).join('');
+            
+            // Update recent expenses
+            const recentDiv = document.getElementById('recent-expenses');
+            const recentExpenses = tripData.expenses.slice(-5).reverse();
+            
+            recentDiv.innerHTML = recentExpenses.map(expense => `
+                <div class="flex justify-between items-center bg-white/30 rounded-lg p-2">
+                    <div>
+                        <p class="font-medium">${expense.description}</p>
+                        <p class="text-sm text-gray-600">${expense.date}</p>
+                    </div>
+                    <span class="font-semibold">${formatCurrency(expense.amount, expense.currency)}</span>
+                </div>
+            `).join('');
+        }
+
+        function convertCurrency(amount, fromCurrency, toCurrency) {
+            if (fromCurrency === 'local') fromCurrency = 'USD'; // Simplified
+            if (fromCurrency === toCurrency) return amount;
+            
+            const usdAmount = amount / exchangeRates[fromCurrency];
+            return usdAmount * exchangeRates[toCurrency];
+        }
+
+        function formatCurrency(amount, currency) {
+            const symbols = {
+                USD: '$',
+                EUR: '€',
+                JPY: '¥',
+                PHP: '₱',
+                THB: '฿',
+                SGD: 'S$',
+                KRW: '₩'
+            };
+            
+            return `${symbols[currency] || currency} ${amount.toFixed(2)}`;
+        }
+
+        // Summary Functions
+        function updateTripSummary() {
+            const overviewDiv = document.getElementById('trip-overview');
+            const setup = tripData.setup;
+            
+            overviewDiv.innerHTML = `
+                <div class="space-y-4">
+                    <div class="bg-pastel-peach/50 rounded-xl p-4">
+                        <h4 class="font-bold text-lg mb-2">🌍 ${setup.name || 'My Trip'}</h4>
+                        <p><strong>Country:</strong> ${setup.country || 'Not specified'}</p>
+                        <p><strong>Cities:</strong> ${setup.cities?.join(', ') || 'Not specified'}</p>
+                        <p><strong>Duration:</strong> ${setup.startDate && setup.endDate ? 
+                            Math.ceil((new Date(setup.endDate) - new Date(setup.startDate)) / (1000 * 60 * 60 * 24)) + 1 + ' days' : 'Not specified'}</p>
+                    </div>
+                    
+                    <div class="bg-pastel-mint/50 rounded-xl p-4">
+                        <h4 class="font-bold text-lg mb-2">💰 Budget Summary</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-600">Total Budget</p>
+                                <p class="font-bold">${formatCurrency(setup.budget || 0, setup.currency || 'USD')}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Total Spent</p>
+                                <p class="font-bold">${formatCurrency(tripData.expenses.reduce((sum, exp) => 
+                                    sum + convertCurrency(exp.amount, exp.currency, setup.currency || 'USD'), 0), setup.currency || 'USD')}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-pastel-lavender/50 rounded-xl p-4">
+                        <h4 class="font-bold text-lg mb-2">📅 Activities Planned</h4>
+                        <p>${Object.values(tripData.itinerary).flat().length} activities across ${Object.keys(tripData.itinerary).length} days</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function saveReflection() {
+            tripData.reflection = {
+                highlight: document.getElementById('trip-highlight').value,
+                learning: document.getElementById('trip-learning').value,
+                moments: document.getElementById('unforgettable-moments').value,
+                tips: document.getElementById('travel-tips').value
+            };
+            
+            showNotification('Reflection saved! Your memories are precious ✨', 'success');
+        }
+
+        function exportTripSummary() {
+            const setup = tripData.setup;
+            const totalSpent = tripData.expenses.reduce((sum, exp) => 
+                sum + convertCurrency(exp.amount, exp.currency, setup.currency || 'USD'), 0);
+            const totalActivities = Object.values(tripData.itinerary).flat().length;
+            const totalDays = Object.keys(tripData.itinerary).length;
+            
+            // Create comprehensive trip summary
+            const tripSummary = `
+🌍 TRIP SUMMARY: ${setup.name || 'My Amazing Adventure'}
+${'='.repeat(50)}
+
+📍 DESTINATION DETAILS
+• Country: ${setup.country || 'Not specified'}
+• Cities: ${setup.cities?.join(', ') || 'Not specified'}
+• Duration: ${setup.startDate && setup.endDate ? 
+    Math.ceil((new Date(setup.endDate) - new Date(setup.startDate)) / (1000 * 60 * 60 * 24)) + 1 + ' days' : 'Not specified'}
+• Dates: ${setup.startDate || 'Not set'} to ${setup.endDate || 'Not set'}
+
+💰 BUDGET BREAKDOWN
+• Total Budget: ${formatCurrency(setup.budget || 0, setup.currency || 'USD')}
+• Total Spent: ${formatCurrency(totalSpent, setup.currency || 'USD')}
+• Remaining: ${formatCurrency((setup.budget || 0) - totalSpent, setup.currency || 'USD')}
+
+📊 EXPENSE CATEGORIES
+${generateExpenseCategoryReport()}
+
+📅 ITINERARY OVERVIEW
+• Total Activities Planned: ${totalActivities}
+• Days with Activities: ${totalDays}
+
+${generateItineraryReport()}
+
+✨ TRAVEL REFLECTIONS
+${generateReflectionReport()}
+
+📝 DETAILED EXPENSES
+${generateExpenseReport()}
+
+${'='.repeat(50)}
+Generated on: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
+Created with Travel Planner & Tracker ✈️
+            `.trim();
+
+            // Create and download the file
+            const blob = new Blob([tripSummary], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${setup.name || 'Trip'}_Summary_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            showNotification('Trip summary exported! 📤✨', 'success');
+        }
+
+        function generateExpenseCategoryReport() {
+            const budgetCurrency = tripData.setup.currency || 'USD';
+            const categoryTotals = {};
+            const categoryEmojis = {
+                'pre-departure': '🎒',
+                'transport': '🚗',
+                'food': '🍜',
+                'airfare': '✈️',
+                'accommodation': '🏨',
+                'shopping': '🛍️',
+                'activities': '🎡',
+                'other': '📦',
+                'custom': '✨'
+            };
+            
+            tripData.expenses.forEach(expense => {
+                const convertedAmount = convertCurrency(expense.amount, expense.currency, budgetCurrency);
+                if (!categoryTotals[expense.category]) {
+                    categoryTotals[expense.category] = 0;
+                }
+                categoryTotals[expense.category] += convertedAmount;
+            });
+            
+            if (Object.keys(categoryTotals).length === 0) {
+                return '• No expenses recorded yet';
+            }
+            
+            return Object.entries(categoryTotals)
+                .map(([category, total]) => 
+                    `• ${categoryEmojis[category]} ${category.charAt(0).toUpperCase() + category.slice(1)}: ${formatCurrency(total, budgetCurrency)}`)
+                .join('\n');
+        }
+
+        function generateItineraryReport() {
+            if (Object.keys(tripData.itinerary).length === 0) {
+                return '• No activities planned yet';
+            }
+            
+            let report = '';
+            Object.entries(tripData.itinerary).forEach(([day, activities]) => {
+                report += `\nDAY ${day}:\n`;
+                if (activities.length === 0) {
+                    report += '  • No activities planned\n';
+                } else {
+                    activities.forEach(activity => {
+                        report += `  • ${activity.time ? activity.time + ' - ' : ''}${activity.name}`;
+                        if (activity.location) report += ` (${activity.location})`;
+                        if (activity.duration) report += ` [${activity.duration}h]`;
+                        report += '\n';
+                    });
+                }
+            });
+            
+            return report;
+        }
+
+        function generateReflectionReport() {
+            const reflection = tripData.reflection;
+            if (!reflection || (!reflection.highlight && !reflection.learning && !reflection.moments && !reflection.tips)) {
+                return '• No reflections recorded yet';
+            }
+            
+            let report = '';
+            if (reflection.highlight) {
+                report += `\n🌟 Trip Highlight:\n${reflection.highlight}\n`;
+            }
+            if (reflection.learning) {
+                report += `\n🧠 What I Learned:\n${reflection.learning}\n`;
+            }
+            if (reflection.moments) {
+                report += `\n💫 Unforgettable Moments:\n${reflection.moments}\n`;
+            }
+            if (reflection.tips) {
+                report += `\n🗺️ Travel Tips:\n${reflection.tips}\n`;
+            }
+            
+            return report;
+        }
+
+        function generateExpenseReport() {
+            if (tripData.expenses.length === 0) {
+                return '• No expenses recorded yet';
+            }
+            
+            const sortedExpenses = [...tripData.expenses].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            return sortedExpenses.map(expense => 
+                `• ${expense.date} - ${expense.description}: ${formatCurrency(expense.amount, expense.currency)} (${expense.category})`
+            ).join('\n');
+        }
+
+        // Utility Functions
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-xl shadow-lg z-50 transition-all duration-300 transform translate-x-full`;
+            
+            const bgColor = {
+                success: 'bg-soft-mint',
+                error: 'bg-soft-peach',
+                info: 'bg-soft-lavender'
+            }[type];
+            
+            notification.classList.add(bgColor);
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set today's date as default for expense date
+            document.getElementById('expense-date').value = new Date().toISOString().split('T')[0];
+            
+            // Update displays when switching to tabs
+            document.getElementById('tab-summary').addEventListener('click', updateTripSummary);
+            document.getElementById('tab-expenses').addEventListener('click', updateExpenseOverview);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'961f9dd543a0850e',t:'MTc1Mjk4NDcwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
