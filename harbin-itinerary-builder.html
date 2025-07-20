@@ -414,6 +414,45 @@
                 duration: "0.5-1 hour",
                 emoji: "⛪",
                 season: "All Year"
+            },
+            {
+                id: 21,
+                name: "哈尔滨极地馆 Harbin Polarland",
+                englishName: "Harbin Polarland",
+                description: "An Arctic-themed aquarium and animal park featuring polar bears, belugas, penguins, and seals—famous for its animal shows.",
+                whyGo: "It's the first polar-themed park in China and a favorite for kids and animal lovers.",
+                bestTime: "Year-round (indoor & outdoor)",
+                bestFor: "Families, kids, animal lovers",
+                price: "¥150–¥200",
+                duration: "2-3 hours",
+                emoji: "🐧",
+                season: "All Year"
+            },
+            {
+                id: 22,
+                name: "太阳岛 Sun Island",
+                englishName: "Sun Island",
+                description: "A scenic island park known for gardens, lakes, and its famous Sun Island Snow Sculpture Expo in winter.",
+                whyGo: "A peaceful nature retreat in summer and a stunning snow sculpture showcase in winter.",
+                bestTime: "Dec–Feb (snow expo), May–Oct (greenery and park walks)",
+                bestFor: "Nature lovers, photographers, families",
+                price: "¥30–¥60 (Park entry); ¥150+ (Snow Expo)",
+                duration: "2-4 hours",
+                emoji: "🌞",
+                season: "All Year"
+            },
+            {
+                id: 23,
+                name: "龙塔 Dragon Tower",
+                englishName: "Dragon Tower",
+                description: "A 336m broadcasting and observation tower with panoramic views of Harbin and a revolving restaurant.",
+                whyGo: "Tallest steel tower in northeast China with great views and photo ops.",
+                bestTime: "Clear days for views; evenings for city lights",
+                bestFor: "First-timers, photographers, cityscape lovers",
+                price: "¥100–¥150",
+                duration: "1.5-2 hours",
+                emoji: "🐉",
+                season: "All Year"
             }
         ];
 
@@ -717,11 +756,11 @@
 
         // Travel style presets
         const travelStyles = {
-            snow: [9, 10, 11, 12, 5, 14], // Ice World, Gallery, Snow Town, Mountain, Skiing, River
-            culture: [1, 2, 4, 18, 16, 17], // Volga Manor, Museum, Factory, Baroque Street, Music Gallery, Railway Bridge
+            snow: [9, 10, 11, 12, 5, 14, 22], // Ice World, Gallery, Snow Town, Mountain, Skiing, River, Sun Island
+            culture: [1, 2, 4, 18, 16, 17, 23], // Volga Manor, Museum, Factory, Baroque Street, Music Gallery, Railway Bridge, Dragon Tower
             foodie: [7, 8, 6, 15], // Imperial Banquet, Bathhouse, Chocolate Museum, Local Market
-            family: [3, 6, 13, 9, 14], // Poseidon, Chocolate Museum, Tiger Park, Ice World, River Activities
-            firsttime: [20, 19, 18, 14, 17, 2, 9] // Sophia Cathedral, Central Street, Baroque Street, River, Railway Bridge, Museum, Ice World
+            family: [3, 6, 13, 9, 14, 21, 22], // Poseidon, Chocolate Museum, Tiger Park, Ice World, River Activities, Polarland, Sun Island
+            firsttime: [20, 19, 18, 14, 17, 2, 9, 23] // Sophia Cathedral, Central Street, Baroque Street, River, Railway Bridge, Museum, Ice World, Dragon Tower
         };
 
         function selectTravelStyle(style) {
@@ -748,5 +787,5 @@
         // Initialize the app
         renderAttractions();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'960dc664f72c2416',t:'MTc1Mjc5NzYyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'962230e6269c0444',t:'MTc1MzAxMTcwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
