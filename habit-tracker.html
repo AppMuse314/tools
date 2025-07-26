@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Habit Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 py-8">
+    <div class="max-w-xl mx-auto p-4 bg-white shadow-md rounded">
+        <h1 class="text-2xl font-bold mb-4 text-center">Habit Tracker</h1>
+        <div class="flex mb-4">
+            <input id="habit-input" type="text" placeholder="New habit" class="flex-grow border rounded-l px-3 py-2 focus:outline-none">
+            <button id="add-btn" class="bg-blue-500 text-white px-4 rounded-r">Add</button>
+        </div>
+        <ul id="habit-list" class="space-y-2"></ul>
+    </div>
+
+    <script>
+        const habitInput = document.getElementById('habit-input');
+        const addBtn = document.getElementById('add-btn');
+        const habitList = document.getElementById('habit-list');
+
+        let habits = JSON.parse(localStorage.getItem('habits') || '[]');
+
+        function saveHabits() {
+            localStorage.setItem('habits', JSON.stringify(habits));
+        }
+
+        function dayString(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        function render() {
+            habitList.innerHTML = '';
+            const today = dayString(new Date());
+            habits.forEach((habit, index) => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center justify-between p-2 border rounded';
+
+                const info = document.createElement('div');
+                info.innerHTML = `<strong>${habit.name}</strong><br>Streak: ${habit.streak}`;
+
+                const done = document.createElement('input');
+                done.type = 'checkbox';
+                done.className = 'mr-2';
+                done.checked = habit.lastDone === today;
+                done.disabled = habit.lastDone === today;
+                done.addEventListener('change', () => {
+                    if (dayString(new Date(habit.lastDone)) === dayString(new Date(Date.now() - 86400000))) {
+                        habit.streak += 1;
+                    } else {
+                        habit.streak = 1;
+                    }
+                    habit.lastDone = today;
+                    saveHabits();
+                    render();
+                });
+
+                const delBtn = document.createElement('button');
+                delBtn.textContent = 'Remove';
+                delBtn.className = 'text-red-600 text-sm';
+                delBtn.addEventListener('click', () => {
+                    habits.splice(index, 1);
+                    saveHabits();
+                    render();
+                });
+
+                const right = document.createElement('div');
+                right.className = 'flex items-center';
+                right.appendChild(done);
+                right.appendChild(delBtn);
+
+                li.appendChild(info);
+                li.appendChild(right);
+                habitList.appendChild(li);
+            });
+        }
+
+        addBtn.addEventListener('click', () => {
+            const name = habitInput.value.trim();
+            if (!name) return;
+            habits.push({ name, streak: 0, lastDone: '' });
+            habitInput.value = '';
+            saveHabits();
+            render();
+        });
+
+        render();
+    </script>
+</body>
+</html>
